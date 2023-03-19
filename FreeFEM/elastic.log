@@ -1,0 +1,63 @@
+-- FreeFem++ v4.1 (Sat, Nov 13, 2021  7:40:01 PM - git v4.10)
+   file : C:\Users\sadam\Desktop\Research\UTM\FreeFEM\elastic.edp
+ Load: lg_fem lg_mesh lg_mesh3 eigenvalue
+    1 : // See https://doc.freefem.org/tutorials/elasticity.html for more information
+    2 :
+    3 : // Parameters
+    4 : int nn = 5;
+    5 : real L = 5.;
+    6 : real H = 1.;
+    7 :
+    8 : real Mu = 1.;
+    9 : real Lambda = 1.;
+   10 :
+   11 : real Fx = 0.;
+   12 : real Fy = -1.e-3;
+   13 :
+   14 : // Mesh
+   15 : mesh Th = square(L*nn, H*nn, [L*x, H*y]);
+   16 :
+   17 : // Fespace
+   18 : fespace Uh(Th, P1);
+   19 : Uh Ux,f Uyreeglut ;(ffglut.exe):
+   20fgPlatformInitialize: CreateDC failed, Screen size info may be incorrect
+This is quite likely caused by a bad '-display' parameter :
+Uh Uhx, Uhy;
+   21 :
+   22 : // Macro
+   23 : real sqrt2 = sqrt(2.);
+   24 : macro Epsilon(U) [dx(U#x), dy(U#y), div(U#y, U#x)/sqrt2]  )  //
+   25 : macro div(ux, uy) (dx(ux) + dy(uy))  )  //
+   26 : macro Div(U) div(U#x, U#y)  )  //
+   27 :
+   28 : // Problem
+   29 : problem Lame ([Ux, Uy], [Uhx, Uhy])
+   30 :         = int2d(Th)(
+   31 :                   Lambda * Div(U)    div(Ux, Uy)     (dx(Ux) + dy( Uy))   * Div(Uh)    div(Uhx, Uhy)     (dx(Uhx) + dy( Uhy))
+   32 :                 + 2.*Mu * Epsilon(U)      [dx(Ux), dy(Uy), div(Uy, Ux)     (dx(Uy) + dy( Ux)) /sqrt2] ' * Epsilon(Uh)      [dx(Uhx), dy(Uhy), div(Uhy, Uhx)     (dx(Uhy) + dy( Uhx)) /sqrt2]
+   33 :         )
+   34 :         - int2d(Th)(
+   35 :                   [Fx, Fy]' * [Uhx, Uhy]
+   36 :         )
+   37 :         + on(4, Ux=0, Uy=0)
+   38 :         ;
+   39 :
+   40 : // Solve
+   41 : Lame;
+   42 :
+   43 : // Move mesh
+   44 : Th = movemesh(Th, [x+Ux, y+Uy]);
+   45 : Ux=Ux; Uy=Uy;
+   46 :
+   47 : // Plot
+   48 : plot([Ux, Uy]); sizestack + 1024 =3048  ( 2024 )
+ 
+  -- Square mesh : nb vertices  =156 ,  nb triangles = 250 ,  nb boundary edges 60
+ kk 2 3 :   -- Solve :
+          min -0.041003  max 0.0407624
+          min -0.319281  max 1.8561e-34
+times: compile 0.08s, execution 0.007s,  mpirank:0
+ ######## We forget of deleting   540 Nb pointer,   0Bytes  ,  mpirank 0, memory leak =0
+ CodeAlloc : nb ptr  3768,  size :497376 mpirank: 0
+Ok: Normal End
+ try getConsole C:\Users\sadam\Desktop\Research\UTM\FreeFEM\elastic.edp

@@ -1,0 +1,44 @@
+22-11-2021 [11:24:52] Logfile opened
+22-11-2021 [11:24:52] Executable : vampire-serial
+22-11-2021 [11:24:52] Host name  : MITT-UNIX:
+22-11-2021 [11:24:52] Directory  : /home/mitt-unix/Desktop/geant4LX/Vampire/linux
+22-11-2021 [11:24:52] Process ID : 18639
+22-11-2021 [11:24:52] Version    : 5.0.0
+22-11-2021 [11:24:52] Githash    : 333e1e78d8528477ae6e4d24b0238c8a0b16f9d6
+22-11-2021 [11:24:52] Opening main input file "input".
+22-11-2021 [11:24:52] Parsing system parameters from main input file.
+22-11-2021 [11:24:52] Opening material file "Co.mat".
+22-11-2021 [11:24:52] Parsing material file for parameters.
+22-11-2021 [11:24:52] Generating neighbour interactions for a lattice of 5 x 5 x 5 unit cells for neighbour calculation
+22-11-2021 [11:24:52] Calculating alloy properties of system
+22-11-2021 [11:24:52] Determining atomic composition
+22-11-2021 [11:24:52] Material 1 Co makes up 100% of all atoms.
+22-11-2021 [11:24:52] Memory required for neighbourlist calculation:0.085184 MB
+22-11-2021 [11:24:52] Allocating memory for supercell array in neighbourlist calculation...
+22-11-2021 [11:24:52] 	Done
+22-11-2021 [11:24:52] Populating supercell array for neighbourlist calculation...
+22-11-2021 [11:24:52] 	Done
+22-11-2021 [11:24:52] Memory required for neighbour list:0.511104 MB
+22-11-2021 [11:24:52] Generating neighbour list...
+22-11-2021 [11:24:52] 	Done
+22-11-2021 [11:24:52] Deallocating supercell array for neighbour list calculation
+22-11-2021 [11:24:52] 	Done
+22-11-2021 [11:24:52] Copying system data to optimised data structures.
+22-11-2021 [11:24:52] Number of atoms generated on rank 0: 10648
+22-11-2021 [11:24:52] Memory required for copying to performance array on rank 0: 1.6185 MB RAM
+22-11-2021 [11:24:52] Identifying surface atoms using global threshold value of 6
+22-11-2021 [11:24:52] 2648 surface atoms found.
+22-11-2021 [11:24:52] Memory required for creation of 1D neighbour list on rank 0: 0.170368 MB RAM
+22-11-2021 [11:24:52] Initialising data structures for exchange calculation.
+22-11-2021 [11:24:52] Unrolled exchange template requires 0.487872MB RAM
+22-11-2021 [11:24:52] Macrocell size = 10 Angstroms
+22-11-2021 [11:24:52] Macrocells in x,y,z: 8	8	8
+22-11-2021 [11:24:52] Total number of macrocells: 512
+22-11-2021 [11:24:52] Memory required for macrocell arrays: 0.04096 MB
+22-11-2021 [11:24:52] Number of local macrocells on rank 0: 512
+22-11-2021 [11:24:52] Number of atoms generated: 10648
+22-11-2021 [11:24:52] Initialising data structures for anisotropy calculation.
+22-11-2021 [11:24:52] Initialising statistics module
+22-11-2021 [11:24:52] Starting Simulation with Program Benchmark...
+22-11-2021 [11:25:01] Simulation run time [s]: 8.90721
+22-11-2021 [11:25:01] Simulation ended gracefully.

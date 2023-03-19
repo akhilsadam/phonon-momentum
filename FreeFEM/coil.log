@@ -1,0 +1,66 @@
+-- FreeFem++ v4.1 (Sat, Nov 13, 2021  7:40:01 PM - git v4.10)
+   file : C:\Users\sadam\Desktop\Research\UTM\FreeFEM\coil.edp
+ Load: lg_fem lg_mesh lg_mesh3 eigenvalue
+    1 : load "msh3"(load: loadLibary C:\Program Files (x86)\FreeFem++\\.\msh3 = 0)
+    2 : load "medit"(load: loadLibary C:\Program Files (x86)\FreeFem++\\.\medit = 0)
+    3 : load "iovtk"(load: loadLibary C:\Program Files (x86)\FreeFem++\\.\iovtk = 0) load: iovtk
+ 
+    4 :
+    5 : mesh3 Th("coil.msh");
+    6 : plot(Th,wait=1);
+    7 :
+    8 :
+    9 : // edge function space
+   10 : fespace Nh(Th,Edge03d);
+   11 : // node function space
+   12 : fespace Vh(Th,P1);
+   13 :
+   14 : Nh [Ax,Ay,Az],[Wx,Wy,Wz],[Bx,By,Bz];
+   15 :
+   16 : int nedges=Ax[].n;
+   17 :
+   18 : // coil
+   19 : real b=0.4; // height
+   20 : real Rext=0.2; // outer radiusf
+   21reeglut  : (ffglut.exe): reafgPlatformInitialize: CreateDC failed, Screen size info may be incorrect
+This is quite likely caused by a bad '-display' parameterl
+Rint=0.5; // inner radius
+   22 : real zinf=-0.2;
+   23 : real zsup=zinf+b;
+   24 :
+   25 : //source
+   26 : real J0=1; //electric current density
+   27 :
+   28 : Vh R = sqrt(x^2+y^2); //distance to z-axis
+   29 :
+   30 : Nh [Tx,Ty,Tz];
+   31 : [Tx,Ty,Tz]=[0,0, J0*(Rext-Rint)*((R<Rint)*(z<zsup)*(z>zinf)) + J0*(Rext-R)*((R>Rint)*(R<Rext)*(z<zsup)*(z>zinf))pYÔo];
+   32 :
+   33 : macro Rot(Ax,Ay,Az) [dy(Az)-dz(Ay),dz(Ax)-dx(Az),dx(Ay)-dy(Ax)]  )  //
+   34 :
+   35 : real nu=1/(4*pi*1e-7); //free space reluctivity
+   36 :
+   37 :
+   38 : solve magstat([Ax,Ay,Az],[Wx,Wy,Wz],solver=CG,eps=1e-9)=int3d(Th)(Rot(Ax,Ay,Az)   [dy(Az)-dz(Ay),dz(Ax)-dx(Az),dpYÔox(Ay)-dy(Ax)] '*Rot(Wx,Wy,Wz)   [dy(Wz)-dz(Wy),dz(Wx)-dx(Wz),dx(Wy)-dy(Wx)] *nu)
+   39 :                                                         +int3d(Th)([Tx,Ty,Tz]'*Rot(Wx,Wy,Wz)   [dy(Wz)-dz(Wy),dzpYÔo(Wx)-dx(Wz),dx(Wy)-dy(Wx)] )
+   40 :                                                         +on(1,Ax=0,Ay=0,Az=0);
+   41 :
+   42 : [Bx,By,Bz]=Rot(Ax,Ay,Az)   [dy(Az)-dz(Ay),dz(Ax)-dx(Az),dx(Ay)-dy(Ax)] ;
+   43 :
+   44 : Vh Bxn, Byn, Bzn;
+   45 : Bxn=Bx;
+   46 : Byn=By;
+   47 : Bzn=Bz;
+   48 :
+   49 : int[int] fforder=[0];
+   50 : savevtk("solvel.vtk",Th,[Bxn,Byn,Bzn],order=fforder,dataname="induction"); sizestack + 1024 =5464  ( 4440 )
+ 
+read mesh ok 1Mesh3, num Tetra:= 0, num Vertice:= 0 num boundary Triangles:= 0
+ ERROR: The mesh file doesn't contain vertices
+  current line = 5
+Assertion fail : (0)
+        line :1097, in file ../femlib/Mesh3dn.cpp
+Assertion fail : (0)
+        line :1097, in file ../femlib/Mesh3dn.cpp
+ err code 6 ,  mpirank 0
+ try getConsole C:\Users\sadam\Desktop\Research\UTM\FreeFEM\coil.edp

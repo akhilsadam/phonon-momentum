@@ -1,0 +1,50 @@
+load "msh3"
+load "medit"
+load "iovtk"
+
+mesh3 Th("coil.msh");
+plot(Th,wait=1);
+
+
+// edge function space
+fespace Nh(Th,Edge03d);
+// node function space
+fespace Vh(Th,P1);
+
+Nh [Ax,Ay,Az],[Wx,Wy,Wz],[Bx,By,Bz];
+
+int nedges=Ax[].n;
+
+// coil
+real b=0.4; // height
+real Rext=0.2; // outer radius
+real Rint=0.5; // inner radius
+real zinf=-0.2;
+real zsup=zinf+b;
+
+//source
+real J0=1; //electric current density
+
+Vh R = sqrt(x^2+y^2); //distance to z-axis
+
+Nh [Tx,Ty,Tz];
+[Tx,Ty,Tz]=[0,0, J0*(Rext-Rint)*((R<Rint)*(z<zsup)*(z>zinf)) + J0*(Rext-R)*((R>Rint)*(R<Rext)*(z<zsup)*(z>zinf))];
+
+macro Rot(Ax,Ay,Az) [dy(Az)-dz(Ay),dz(Ax)-dx(Az),dx(Ay)-dy(Ax)] //
+
+real nu=1/(4*pi*1e-7); //free space reluctivity
+
+
+solve magstat([Ax,Ay,Az],[Wx,Wy,Wz],solver=CG,eps=1e-9)=int3d(Th)(Rot(Ax,Ay,Az)'*Rot(Wx,Wy,Wz)*nu)
+                                                        +int3d(Th)([Tx,Ty,Tz]'*Rot(Wx,Wy,Wz))
+                                                        +on(1,Ax=0,Ay=0,Az=0);
+
+[Bx,By,Bz]=Rot(Ax,Ay,Az);
+
+Vh Bxn, Byn, Bzn;
+Bxn=Bx;
+Byn=By;
+Bzn=Bz;
+
+int[int] fforder=[0];
+savevtk("solvel.vtk",Th,[Bxn,Byn,Bzn],order=fforder,dataname="induction");
